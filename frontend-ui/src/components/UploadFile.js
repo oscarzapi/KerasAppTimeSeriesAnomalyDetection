@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import Chart from '../components/Chart'
 import '../App.css';
 
 function UploadFile() {
 
   const [data,setData] = useState([])
   const [selectFile, setSelectFile] = useState("")
-  let dataAux = []
 
   const handleChange = (event)=> {
     console.log(event.target.name,event.target.files[0])
@@ -22,9 +22,12 @@ function UploadFile() {
     const resp = await fetch(url, reqOpt)
     .then(resp => resp.json())
     .then(resp2 => {
-      resp2.forEach(e => {
-        dataAux.push({'date': e.timestamp, 'value': e.value})
-    });
+      let anomalies = []
+      resp2.result.forEach(e => {
+        anomalies.push({'date': e.date, 'anomaly': e.value})
+      })
+      let dataAux = Object.assign(resp2.file, anomalies)
+      console.log(dataAux)
     setData(dataAux)
     })
   }
@@ -35,6 +38,8 @@ function UploadFile() {
         <input type='file' name='selectFile' onChange={handleChange}></input>
         <input type='submit' value='submit'></input>
         </form>
+        <Chart data={data} ></Chart>
+    
     </div>
   );
 }
