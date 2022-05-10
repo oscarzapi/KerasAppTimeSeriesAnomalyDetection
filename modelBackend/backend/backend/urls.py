@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from anomalies import views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
+    path('batchProcessing', csrf_exempt(views.batchProcessing),name="Forecast file"),
     path('admin/', admin.site.urls),
+
 ]
