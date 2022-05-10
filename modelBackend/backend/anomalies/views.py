@@ -52,9 +52,13 @@ def batchProcessing(request):
         if np.all(anomalies[data_idx - TIME_STEPS + 1 : data_idx]):
             anomalous_data_indices.append(data_idx)
 
-    df_subset = dataFile.iloc[anomalous_data_indices]
+    dataFile = dataFile.reset_index()
+    
+    df_subset = dataFile.iloc[anomalous_data_indices].reset_index(drop=True)
 
+    df_subset = df_subset.to_dict('records')
+    dataFile = dataFile.to_dict('records')
     print(df_subset)
-    df_subset = df_subset.to_json()
-    dataFile = dataFile.to_json()
+
+
     return JsonResponse({'result': df_subset, 'file': dataFile})

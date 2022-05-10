@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+}
+
+nav {
+  background-color: black;
+  color: white;
+  align-items:center;
+  display: flex;
+  justify-content: space-around;
+}
+
+
+.nvlink li {
+  list-style: none;
+  display: flex;
+  color: white;
+}
+
+table {
+  margin: auto;
+  align-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 40%;
+}
+
+td, th {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){
+  background-color: #dddddddd;
+}
+
+.UploadFile {
+  margin: auto;
+}
