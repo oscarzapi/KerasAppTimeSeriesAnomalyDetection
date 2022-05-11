@@ -45,7 +45,7 @@ def batchProcessing(request):
     test_mae_loss = test_mae_loss.reshape((-1))
     
     threshold = np.max(test_mae_loss)
-    anomalies = test_mae_loss > threshold*0.7
+    anomalies = test_mae_loss > threshold * 0.75
 
     anomalous_data_indices = []
     for data_idx in range(TIME_STEPS - 1, len(df_training_value) - TIME_STEPS + 1):
@@ -54,11 +54,14 @@ def batchProcessing(request):
 
     dataFile = dataFile.reset_index()
     
-    df_subset = dataFile.iloc[anomalous_data_indices].reset_index(drop=True)
-
-    df_subset = df_subset.to_dict('records')
-    dataFile = dataFile.to_dict('records')
+    df_subset = dataFile.iloc[anomalous_data_indices].reset_index()
     print(df_subset)
 
 
-    return JsonResponse({'result': df_subset, 'file': dataFile})
+    data = pd.merge(dataFile, df_subset, how='left', on='timestamp').fillna(0)
+
+    data = data.to_dict('records')
+    
+
+
+    return JsonResponse({'result': data})

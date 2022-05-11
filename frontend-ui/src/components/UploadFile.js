@@ -20,15 +20,14 @@ function UploadFile() {
 
     const reqOpt = {method:"POST", body:formData}
     const resp = await fetch(url, reqOpt)
-    .then(resp => resp.json())
-    .then(resp2 => {
-      let anomalies = []
-      resp2.result.forEach(e => {
-        anomalies.push({'date': e.date, 'anomaly': e.value})
-      })
-      let dataAux = Object.assign(resp2.file, anomalies)
-      console.log(dataAux)
-    setData(dataAux)
+      .then(resp => resp.json())
+      .then(resp2 => {     
+        const data = []
+        resp2.result.forEach(e => {
+          data.push({'timestamp': new Date(e.timestamp), 'value_x': e.value_x, 'value_y':e.value_y})
+        })
+        console.log(resp2.result)
+      setData(data)
     })
   }
 
